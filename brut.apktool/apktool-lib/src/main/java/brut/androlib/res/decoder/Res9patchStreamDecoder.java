@@ -124,21 +124,21 @@ public class Res9patchStreamDecoder implements ResStreamDecoder {
         }
     }
 
-    private NinePatch getNinePatch(byte[] data) throws AndrolibException,
+    protected NinePatch getNinePatch(byte[] data) throws AndrolibException,
             IOException {
         ExtDataInput di = new ExtDataInput(new ByteArrayInputStream(data));
         find9patchChunk(di, NP_CHUNK_TYPE);
         return NinePatch.decode(di);
     }
 
-    private OpticalInset getOpticalInset(byte[] data) throws AndrolibException,
+    protected OpticalInset getOpticalInset(byte[] data) throws AndrolibException,
             IOException {
         ExtDataInput di = new ExtDataInput(new ByteArrayInputStream(data));
         find9patchChunk(di, OI_CHUNK_TYPE);
         return OpticalInset.decode(di);
     }
 
-    private void find9patchChunk(DataInput di, int magic) throws AndrolibException,
+    protected void find9patchChunk(DataInput di, int magic) throws AndrolibException,
             IOException {
         di.skipBytes(8);
         while (true) {
@@ -155,13 +155,13 @@ public class Res9patchStreamDecoder implements ResStreamDecoder {
         }
     }
 
-    private void drawHLine(BufferedImage im, int y, int x1, int x2) {
+    protected void drawHLine(BufferedImage im, int y, int x1, int x2) {
         for (int x = x1; x <= x2; x++) {
             im.setRGB(x, y, NP_COLOR);
         }
     }
 
-    private void drawVLine(BufferedImage im, int x, int y1, int y2) {
+    protected void drawVLine(BufferedImage im, int x, int y1, int y2) {
         for (int y = y1; y <= y2; y++) {
             im.setRGB(x, y, NP_COLOR);
         }

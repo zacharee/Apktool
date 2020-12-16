@@ -49,14 +49,26 @@ import org.apache.commons.io.FilenameUtils;
  * @author Ryszard Wiśniewski <brut.alll@gmail.com>
  */
 public class Androlib {
-    private final AndrolibResources mAndRes = new AndrolibResources();
-    protected final ResUnknownFiles mResUnknownFiles = new ResUnknownFiles();
+    protected AndrolibResources mAndRes = new AndrolibResources();
+    protected ResUnknownFiles mResUnknownFiles = new ResUnknownFiles();
     public ApkOptions apkOptions;
     private int mMinSdkVersion = 0;
+
+    public Androlib(ApkOptions apkOptions, AndrolibResources resources) {
+        this.mAndRes = resources;
+        this.apkOptions = apkOptions;
+        mAndRes.apkOptions = apkOptions;
+    }
 
     public Androlib(ApkOptions apkOptions) {
         this.apkOptions = apkOptions;
         mAndRes.apkOptions = apkOptions;
+    }
+
+    public Androlib(AndrolibResources resources) {
+        this.mAndRes = resources;
+        this.apkOptions = new ApkOptions();
+        mAndRes.apkOptions = this.apkOptions;
     }
 
     public Androlib() {

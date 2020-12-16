@@ -14,14 +14,18 @@
  *  limitations under the License.
  */
 buildscript {
+    ext.kotlin_version = '1.4.21'
     repositories {
         jcenter()
+        google()
     }
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
     }
     dependencies {
+        classpath 'com.android.tools.build:gradle:7.0.0-alpha03'
         classpath 'com.github.jengelman.gradle.plugins:shadow:6.1.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -37,10 +41,12 @@ def apktoolversion_minor = 'SNAPSHOT'
 defaultTasks 'build', 'shadowJar', 'proguard'
 
 allprojects {
-    apply plugin: 'java'
     apply plugin: 'license'
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+
+    repositories {
+        google()
+        jcenter()
+    }
 
     license {
         header rootProject.file("brut.j.common/src/templates/apache2.0-header.txt")
@@ -64,8 +70,8 @@ allprojects {
     }
 
     // license plugin automatically fires these tasks, disable them and run them during releases
-    gradle.startParameter.excludedTaskNames += "licenseMain"
-    gradle.startParameter.excludedTaskNames += "licenseTest"
+//    gradle.startParameter.excludedTaskNames += "licenseMain"
+//    gradle.startParameter.excludedTaskNames += "licenseTest"
 }
 
 if (!('release' in gradle.startParameter.taskNames)) {
@@ -90,26 +96,11 @@ if (!('release' in gradle.startParameter.taskNames)) {
     println "Building RELEASE (" + getCheckedOutBranch() + "): " + project.ext.apktool_version;
 }
 
-build.doFirst {
-    def javaVersion = System.getProperty("java.version")
-
-    // fail the build if java (1.5/1.6/1.7)
-    if (javaVersion.startsWith("1.5") || javaVersion.startsWith("1.6") || javaVersion.startsWith("1.7")) {
-        throw new GradleException("You can fix this problem!\n" +
-                "We found a " + javaVersion + " JDK\n" +
-                "Please update JAVA_HOME to use at least a 1.8 JDK\n" +
-                "Currently it is set to: " + System.getProperty("java.home")
-        );
-    }
-}
-
 // used for official releases only. Please don't use
 task release {
 }
 
 subprojects {
-    apply plugin: 'java'
-
     ext {
         depends = [
                 baksmali: 'org.smali:baksmali:2.4.0',
@@ -128,11 +119,5 @@ subprojects {
 
     repositories {
         mavenCentral()
-    }
-
-    test {
-        testLogging {
-            exceptionFormat = 'full'
-        }
     }
 }

@@ -14,6 +14,7 @@
  *  limitations under the License.
  */
 apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'java'
 
 dependencies {
     implementation depends.commons_cli
@@ -80,3 +81,8 @@ task proguard(type: proguard.gradle.ProGuardTask, dependsOn: shadowJar) {
 
 proguard.dependsOn cleanOutputDirectory
 tasks.getByPath(':release').dependsOn(proguard)
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}

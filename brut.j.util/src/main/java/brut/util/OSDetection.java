@@ -17,8 +17,13 @@
 package brut.util;
 
 public class OSDetection {
-    private static String OS = System.getProperty("os.name").toLowerCase();
-    private static String Bit = System.getProperty("sun.arch.data.model").toLowerCase();
+    private static final String OS = (System.getProperty("os.name") == null ? "" : System.getProperty("os.name")).toLowerCase();
+    private static final String Bit = (System.getProperty("sun.arch.data.model") == null ? "" : System.getProperty("sun.arch.data.model")).toLowerCase();
+    private static final String RUNTIME_NAME = System.getProperty("java.runtime.name");
+
+    public static boolean isAndroid() {
+        return RUNTIME_NAME != null && RUNTIME_NAME.toLowerCase().contains("android runtime");
+    }
 
     public static boolean isWindows() {
         return (OS.contains("win"));

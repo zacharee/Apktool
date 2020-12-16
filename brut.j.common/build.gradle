@@ -14,7 +14,14 @@
  *  limitations under the License.
  */
 
+apply plugin: 'java'
+
 dependencies {
-    testImplementation depends.junit
+    testImplementation 'junit:junit:4.13.1'
 }
 
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}

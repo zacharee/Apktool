@@ -21,7 +21,7 @@ processResources {
   from('src/main/resources/properties') {
     include '**/*.properties'
     into 'properties'
-    filter(ReplaceTokens, tokens: [version: project.apktool_version, gitrev: project.hash] )
+//    filter(ReplaceTokens, tokens: [version: project(':apktool').apktool_version, gitrev: project(':apktool').hash] )
   }
   from('src/main/resources/') {
     include '**/*.jar'
@@ -31,7 +31,7 @@ processResources {
 }
 
 dependencies {
-    testImplementation("junit:junit:4.10") {
+    testImplementation("junit:junit:4.13.1") {
         exclude(module: 'hamcrest-core')
     }
 
@@ -48,4 +48,8 @@ dependencies {
                    depends.commons_io
 
     testImplementation depends.xmlunit
+}
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
